@@ -15,15 +15,36 @@ function clicked() {
   console.log('removed click handler');
 }
 
+let list = S.data([
+  'bread',
+  'milk',
+  'honey',
+  'chips',
+  'cookie'
+]);
+
 const template = () => {
   return html`
-    <h1 style=${style}>
-      Sinuous <sup>${count}</sup>
-      <div>${() => count() + count()}</div>
-      <button onclick="${onclick}">Click</button>
-    </h1>
+    <div>
+      <h1 style=${style}>
+        Sinuous <sup>${count}</sup>
+        <div>${() => count() + count()}</div>
+        <button onclick="${onclick}">Click</button>
+      </h1>
+      <ul>
+        ${() => list().map((item) => html`<li>${item}</li>`)}
+      </ul>
+    </div>
   `;
 };
 
 S.root(() => document.querySelector('.sinuous').append(template()));
-setInterval(() => style({ color: randomColor() }) && count(count() + 1), 1000);
+setInterval(() => {
+  style({ color: randomColor() });
+  count(count() + 1);
+  list(list().slice());
+}, 1000);
+
+// function shuffle(array) {
+//   return array.sort(() => Math.random() - 0.5);
+// }
